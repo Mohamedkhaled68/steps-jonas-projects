@@ -10,7 +10,7 @@ const messages = [
 
 const App = () => {
     const [steps, setSteps] = useState(1);
-    const [isOpen, setSteps] = useState(1);
+    const [isOpen, setIsOpen] = useState(true);
     const increaseHandler = () => {
         if (steps < messages.length) setSteps((prev) => prev + 1);
     };
@@ -19,40 +19,44 @@ const App = () => {
     };
     return (
         <div>
-            {isOPen && <div className="steps">
-                <div className="numbers">
-                    {messages.map((message, idx) => {
-                        return (
-                            <div
-                                className={steps > idx ? 'active' : ''}
-                                key={idx}
-                            >
-                                {idx + 1}
-                            </div>
-                        );
-                    })}
-                </div>
-
-                <div className="message">
-                    {messages.map((message, idx) => {
-                        if (steps === idx + 1) {
+            <div onClick={() => setIsOpen(!isOpen)} className="close">
+                &times;
+            </div>
+            {isOpen && (
+                <div className="steps">
+                    <div className="numbers">
+                        {messages.map((message, idx) => {
                             return (
-                                <p key={idx}>
-                                    Step {idx + 1}: {message}
-                                </p>
+                                <div
+                                    className={steps > idx ? 'active' : ''}
+                                    key={idx}
+                                >
+                                    {idx + 1}
+                                </div>
                             );
-                        }
-                    })}
+                        })}
+                    </div>
+                    <div className="message">
+                        {messages.map((message, idx) => {
+                            if (steps === idx + 1) {
+                                return (
+                                    <p key={idx}>
+                                        Step {idx + 1}: {message}
+                                    </p>
+                                );
+                            }
+                        })}
+                    </div>
+                    <div className="buttons">
+                        <button onClick={decreaseHandler} style={btnColor}>
+                            Previous
+                        </button>
+                        <button onClick={increaseHandler} style={btnColor}>
+                            Next
+                        </button>
+                    </div>
                 </div>
-                <div className="buttons">
-                    <button onClick={decreaseHandler} style={btnColor}>
-                        Previous
-                    </button>
-                    <button onClick={increaseHandler} style={btnColor}>
-                        Next
-                    </button>
-                </div>
-            </div>}
+            )}
         </div>
     );
 };
